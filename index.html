@@ -29,7 +29,7 @@
             background: var(--bg-cyber);
             color: var(--text-white);
             min-height: 100vh;
-            padding-bottom: 80px; /* Ruang untuk bottom bar */
+            padding-bottom: 90px; /* Ruang untuk bottom bar */
         }
 
         /* HEADER & LANG TOGGLE */
@@ -85,11 +85,11 @@
             padding: 25px;
             backdrop-filter: blur(20px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            display: none; /* Disembunyikan secara default, dikontrol oleh tab */
+            display: none !important; /* Tersembunyi mutlak */
         }
 
         .card.active {
-            display: block;
+            display: block !important; /* Tampil mutlak saat aktif */
             animation: slideUp 0.4s ease;
         }
 
@@ -172,13 +172,13 @@
             display: none;
         }
 
-        /* BOTTOM NAVIGATION BAR (ANTI-BINGUNG) */
+        /* BOTTOM NAVIGATION BAR */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 70px;
+            height: 75px;
             background: rgba(11, 14, 26, 0.95);
             border-top: 1px solid var(--border-glass);
             display: flex;
@@ -194,34 +194,37 @@
             align-items: center;
             color: var(--text-gray);
             text-decoration: none;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
             background: none;
             border: none;
-            width: auto;
-            margin-top: 0;
+            padding: 5px;
+            width: 25%;
+            height: 100%;
+            justify-content: center;
         }
 
         .nav-item.active {
             color: var(--neon-blue);
             text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .nav-icon {
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 22px;
+            margin-bottom: 2px;
         }
 
         /* LIST DRAFT COUNTER & ITEMS */
         .badge {
             display: inline-block;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             font-size: 11px;
             font-weight: bold;
-            margin-right: 5px;
+            margin-right: 8px;
         }
         .badge-buy { background: rgba(0, 255, 204, 0.15); color: #00ffcc; border: 1px solid #00ffcc; }
         .badge-avoid { background: rgba(255, 0, 85, 0.15); color: #ff0055; border: 1px solid #ff0055; }
@@ -236,13 +239,13 @@
         }
         .gallery-img {
             width: 100%;
-            height: 150px;
+            height: 160px;
             object-fit: cover;
             opacity: 0.8;
             transition: 0.3s;
         }
         .gallery-img:hover { opacity: 1; }
-        .gallery-info { padding: 12px; font-size: 13px; }
+        .gallery-info { padding: 15px; font-size: 13px; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(15px); }
@@ -324,7 +327,7 @@
                     <label><input type="checkbox" id="skinLegend" value="400000" style="width:auto; margin-right:5px;"> Skin Legend</label>
                     <label><input type="checkbox" id="skinCollector" value="250000" style="width:auto; margin-right:5px;"> Skin Collector</label>
                     <label><input type="checkbox" id="skinCollab" value="200000" style="width:auto; margin-right:5px;"> Skin Collab (AOT/JJK/KOF)</label>
-                    <label><input type="checkbox" id="skinLightborn" value="700000" style="width:auto; margin-right:5px;"> Squad (Lightborn/S.A.B.E.R)</label>
+                    <label><input type="checkbox" id="skinLightborn" value="150000" style="width:auto; margin-right:5px;"> Squad (Lightborn/S.A.B.E.R)</label>
                 </div>
             </div>
 
@@ -340,7 +343,7 @@
             <h3 id="t3-head">Anti-Lose Counter Draft</h3>
             
             <div class="input-group">
-                <label id="t3-l1">Pilih Hero Core/Sangat Mengganggu Milik Musuh:</label>
+                <label id="t3-l1">Pilih Hero Utama Musuh yang Mengganggu:</label>
                 <select id="enemyHero" onchange="simulateDraftCounter()">
                     <option value="">-- Select Enemy Hero --</option>
                     <option value="ling">Ling / Hayabusa (META Fast Assassin)</option>
@@ -354,17 +357,17 @@
             <div class="result-view" id="draftResultBox" style="display:block; background:rgba(255,255,255,0.02); border-color:var(--border-glass);">
                 <p id="draftPromptText" style="text-align:center; color:var(--text-gray);">Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.</p>
                 <div id="draftMainContent" style="display: none;">
-                    <div style="margin-bottom: 12px;">
+                    <div style="margin-bottom: 15px;">
                         <b style="color: var(--neon-blue);" id="t3-r1">Hero Counter Ideal:</b> 
-                        <div id="counterHeroOutput" style="margin-top: 5px; font-weight: 600;"></div>
+                        <div id="counterHeroOutput" style="margin-top: 5px; font-weight: 600; color: #fff;"></div>
                     </div>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                         <span class="badge badge-buy" id="t3-r2">WAJIB BELI</span>
-                        <span id="itemBuyOutput" style="font-size:13px;"></span>
+                        <span id="itemBuyOutput" style="font-size:13px; color: var(--text-white);"></span>
                     </div>
-                    <div>
+                    <div style="display: flex; align-items: flex-start;">
                         <span class="badge badge-avoid" id="t3-r3">HINDARI ITEM</span>
-                        <span id="itemAvoidOutput" style="font-size:13px;"></span>
+                        <span id="itemAvoidOutput" style="font-size:13px; color: var(--text-white);"></span>
                     </div>
                 </div>
             </div>
@@ -378,7 +381,7 @@
                 <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500" class="gallery-img" alt="Skin 1">
                 <div class="gallery-info">
                     <b style="color:var(--neon-pink)">Fanny - Mikasa Ackerman (Collab)</b>
-                    <p style="font-size:11px; color:var(--text-gray); margin-top:4px;" id="g-d1">Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!</p>
+                    <p style="font-size:12px; color:var(--text-gray); margin-top:6px;" id="g-d1">Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!</p>
                 </div>
             </div>
 
@@ -386,7 +389,7 @@
                 <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500" class="gallery-img" alt="Skin 2">
                 <div class="gallery-info">
                     <b style="color:var(--neon-blue)">Gusion - Cosmic Gleam (Legend)</b>
-                    <p style="font-size:11px; color:var(--text-gray); margin-top:4px;" id="g-d2">Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.</p>
+                    <p style="font-size:12px; color:var(--text-gray); margin-top:6px;" id="g-d2">Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.</p>
                 </div>
             </div>
         </div>
@@ -415,14 +418,14 @@
 
     <!-- PROGRAM LOGIC SCRIPT -->
     <script>
-        // DICTIONARY MULTI-LANGUAGE GAUL
+        // DICTIONARY MULTI-LANGUAGE
         const langPack = {
             id: {
                 btnLang: "🇬🇧 EN",
                 navW: "Kalkulator", navP: "Harga Akun", navD: "Draft Pick", navG: "Aura Skin",
                 t1Head: "Kalkulator Winrate MLBB", t1Mode: "Mode Perhitungan", optAll: "Keseluruhan Akun (All Season)", optHero: "Spesifik Hero Pertandingan",
                 t1m1: "Total Match Saat Ini", t1m2: "WR Saat Ini (%)", t1m3: "Target WR (%)", t1btn: "Hitung Target WR",
-                t2Head: "Kalkulasi Harga Akun", t2l1: "Rank Tertinggi Akun", t2l2: "Total Win Rate Keseluruhan %", t2l3: "Jumlah Skin yang Dimiliki",
+                t2Head: "Kalkulasi Harga Akun", t2l1: "Rank Tertinggi Akun", t2l2: "Total Win Rate Keseluruhan %", t2l3: "Jumlah Skin Dimiliki",
                 t2l4: "Punya Koleksi Skin High-Demand Ini? (Pilih):", t2btn: "Taksir Harga Akun",
                 t3Head: "Simulasi Counter Draft Pick", t3l1: "Pilih Hero Utama Musuh yang Mengganggu:",
                 t3prompt: "Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.",
@@ -446,5 +449,4 @@
                 t3r1: "Ideal Counter & Alternative Heroes:", t3r2: "RECOMMENDED ITEM", t3r3: "AVOID ITEM",
                 t4Head: "Top Aura Skin Showcase",
                 gd1: "Ultimate aura and rizz. The 3D Maneuver Gear cable effects are super smooth, automatically boosting your mechanic style in the jungle!",
-                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot animations, definitely worth the high market demand.",
-                err1: "Fill out the fields first, don't leave it blank!", err2: "Target WR is literally impossible if it's 100% or above!", err3: "Your target WR must be higher than your current WR, obviousl                                  
+                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot anima
