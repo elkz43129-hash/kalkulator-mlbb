@@ -3,446 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLBB Winrate & Counter Dashboard</title>
+    <title>MLBB Elite Synergy Hub</title>
+    <!-- Google Fonts untuk font premium gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --bg-cyber: radial-gradient(circle at center, #111424 0%, #060814 100%);
+            --glass-card: rgba(18, 22, 43, 0.7);
+            --neon-blue: #00e5ff;
+            --neon-pink: #ff007f;
+            --neon-gold: #ffb700;
+            --text-white: #f1f5f9;
+            --text-gray: #94a3b8;
+            --border-glass: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            background: radial-gradient(circle at top, #1e1b4b, #090514);
-            color: #f8fafc;
+            background: var(--bg-cyber);
+            color: var(--text-white);
             min-height: 100vh;
-            padding: 20px 10px;
+            padding-bottom: 80px; /* Ruang untuk bottom bar */
+        }
+
+        /* HEADER & LANG TOGGLE */
+        header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            padding: 20px;
+            background: rgba(6, 8, 20, 0.8);
+            border-bottom: 1px solid var(--border-glass);
+            backdrop-filter: blur(10px);
         }
 
-        .wrapper {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Tombol Pengubah Bahasa Premium */
-        .lang-switcher {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            z-index: 10;
-            display: flex;
-            gap: 5px;
-            background: rgba(9, 5, 20, 0.6);
-            padding: 4px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
         }
 
         .lang-btn {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            padding: 5px 12px;
-            font-size: 11px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-white);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+        }
+
+        /* CONTAINER LAYOUT */
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: var(--glass-card);
+            border: 1px solid var(--border-glass);
             border-radius: 20px;
-            transition: all 0.3s;
-            box-shadow: none;
-            width: auto;
-            margin-top: 0;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            display: none; /* Disembunyikan secara default, dikontrol oleh tab */
         }
 
-        .lang-btn.active {
-            background: linear-gradient(135deg, #38bdf8, #0284c7);
-            color: white;
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+        .card.active {
+            display: block;
+            animation: slideUp 0.4s ease;
         }
 
-        .hero-banner {
-            background: linear-gradient(to bottom, rgba(56, 189, 248, 0.1), rgba(9, 5, 20, 0)), 
-                        url('https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=500') center/cover;
-            height: 120px;
-            border-bottom: 2px solid #38bdf8;
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-white);
+            border-left: 4px solid var(--neon-blue);
+            padding-left: 10px;
         }
 
-        .main-content {
-            padding: 25px 20px;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-        }
-
-        .sub-title {
-            text-align: center;
-            font-size: 12px;
-            color: #38bdf8;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
+        /* INPUT FORM FIELDS */
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
+            font-size: 12px;
+            color: var(--text-gray);
             margin-bottom: 6px;
-            font-size: 13px;
-            color: #94a3b8;
             font-weight: 500;
         }
 
-        input {
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(6, 8, 20, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+
+        .sub-group-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* BUTTONS */
+        .action-btn {
             width: 100%;
             padding: 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(9, 5, 20, 0.6);
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            background: linear-gradient(90deg, var(--neon-blue), #0088cc);
             color: #fff;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
-            transition: all 0.2s ease;
-            margin-top: 5px;
+            transition: 0.3s;
+            margin-top: 10px;
         }
 
-        button:hover {
+        .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
         }
 
-        .result {
-            margin-top: 25px;
-            padding: 16px;
-            background: rgba(56, 189, 248, 0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+        /* RESULT PREVIEWS */
+        .result-view {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 229, 255, 0.05);
+            border: 1px dashed var(--neon-blue);
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
             display: none;
         }
 
-        .result p {
-            font-size: 14px;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .highlight {
-            color: #f43f5e;
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        /* Gaya Laci Dropdown */
-        .laci-container {
-            margin-top: 30px;
-        }
-
-        .laci-item {
-            margin-bottom: 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-        }
-
-        .laci-header {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            cursor: pointer;
+        /* BOTTOM NAVIGATION BAR (ANTI-BINGUNG) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(11, 14, 26, 0.95);
+            border-top: 1px solid var(--border-glass);
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 10px;
             font-weight: 600;
-            font-size: 14px;
-            color: #e2e8f0;
+            cursor: pointer;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            width: auto;
+            margin-top: 0;
         }
 
-        .laci-header:hover {
-            color: #38bdf8;
+        .nav-item.active {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
         }
 
-        .laci-content {
-            max-height: 0;
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* LIST DRAFT COUNTER & ITEMS */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .badge-buy { background: rgba(0, 255, 204, 0.15); color: #00ffcc; border: 1px solid #00ffcc; }
+        .badge-avoid { background: rgba(255, 0, 85, 0.15); color: #ff0055; border: 1px solid #ff0055; }
+
+        /* GALLERY AREA */
+        .gallery-item {
+            border-radius: 12px;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background: rgba(9, 5, 20, 0.4);
+            margin-bottom: 15px;
+            border: 1px solid var(--border-glass);
+            background: #060814;
         }
-
-        .laci-body {
-            padding: 15px;
-            font-size: 13px;
-            color: #cbd5e1;
-            line-height: 1.6;
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: 0.3s;
         }
+        .gallery-img:hover { opacity: 1; }
+        .gallery-info { padding: 12px; font-size: 13px; }
 
-        .laci-body p {
-            margin-bottom: 12px;
-        }
-
-        .badge-hero {
-            background: #38bdf8;
-            color: #090514;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .badge-item {
-            background: #eab308;
-            color: #090514;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .icon-arrow {
-            transition: transform 0.3s;
-        }
-
-        .active .icon-arrow {
-            transform: rotate(180deg);
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- Switcher Bahasa -->
-    <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLanguage('id')">🇮🇩 ID</button>
-        <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 EN</button>
-    </div>
+    <!-- TOP CONTROL HEADER -->
+    <header>
+        <div class="brand">MLBB SYNERGY</div>
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🇬🇧 EN</button>
+    </header>
 
-    <div class="hero-banner"></div>
-
-    <div class="main-content">
-        <h2 id="txt-title">DASHBOARD MLBB</h2>
-        <div class="sub-title" id="txt-subtitle">Winrate Calculator & Strategy</div>
+    <div class="container">
         
-        <!-- Input Form -->
-        <div class="input-group">
-            <label id="lbl-match">Total Match Saat Ini</label>
-            <input type="number" id="totalMatch" placeholder="Ex: 450">
-        </div>
-        
-        <div class="input-group">
-            <label id="lbl-curr-wr">Win Rate Saat Ini (%)</label>
-            <input type="number" step="0.01" id="currentWr" placeholder="Ex: 52.5">
-        </div>
-        
-        <div class="input-group">
-            <label id="lbl-target-wr">Target Win Rate (%)</label>
-            <input type="number" step="0.01" id="targetWr" placeholder="Ex: 60">
-        </div>
-        
-        <button onclick="hitungWinrate()" id="btn-calc">Analyze Win Rate</button>
-        
-        <!-- Hasil -->
-        <div class="result" id="resultBox">
-            <p id="resultText"></p>
-        </div>
-
-        <!-- MENU LACI STRATEGI -->
-        <div class="laci-container">
+        <!-- ==================== TAB 1: CALCULATOR WR ==================== -->
+        <div id="tab-wr" class="card active">
+            <h3 id="t1-head">Winrate Calculator</h3>
             
-            <div class="laci-item">
-                <div class="laci-header" onclick="toggleLaci(this)">
-                    <span id="laci-h1">✨ Aura & Kenapa Harus Pake Web Ini?</span>
-                    <span class="icon-arrow">▼</span>
+            <div class="input-group">
+                <label id="t1-mode-lbl">Mode Perhitungan</label>
+                <select id="wrMode" onchange="switchWrMode()">
+                    <option value="all" id="opt-all">Keseluruhan Akun (All Season)</option>
+                    <option value="hero" id="opt-hero">Spesifik Hero Pertandingan</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label id="t1-m1">Total Match Saat Ini</label>
+                <input type="number" id="wrTotalMatch" placeholder="Ex: 520">
+            </div>
+            <div class="sub-group-grid">
+                <div class="input-group">
+                    <label id="t1-m2">WR Saat Ini (%)</label>
+                    <input type="number" step="0.01" id="wrCurrent" placeholder="Ex: 54.2">
                 </div>
-                <div class="laci-content">
-                    <div class="laci-body" id="laci-b1">
-                        Punya WR di bawah 50% itu *lowkey* bikin krisis reputasi pas mau mabar. Win Rate itu indikator utama aura **Sigma** Anda di MLBB. Daripada boncos ngitung manual sisa win tanpa lose, mending pake sistem kalkulator di atas. Hasil akurat, praktis, anti pusing *no cap*!
-                    </div>
+                <div class="input-group">
+                    <label id="t1-m3">Target WR (%)</label>
+                    <input type="number" step="0.01" id="wrTarget" placeholder="Ex: 60">
+                </div>
+            </div>
+            <button class="action-btn" onclick="calculateWinrate()" id="t1-btn">Analyze WR Target</button>
+            
+            <div class="result-view" id="wrResultBox">
+                <p id="wrResultText"></p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: ACCOUNT PRICING ==================== -->
+        <div id="tab-pricing" class="card">
+            <h3 id="t2-head">Account Valuation</h3>
+            
+            <div class="input-group">
+                <label id="t2-l1">Rank Tertinggi (Highest Rank)</label>
+                <select id="priceRank">
+                    <option value="15000">Grandmaster / Epic</option>
+                    <option value="40000">Legend</option>
+                    <option value="80000">Mythic (0-25 Stars)</option>
+                    <option value="180000">Mythical Honor (25-49 Stars)</option>
+                    <option value="350000">Mythical Glory / Immortal (50+ Stars)</option>
+                </select>
+            </div>
+            <div class="sub-group-grid">
+                <div class="input-group">
+                    <label id="t2-l2">Total Win Rate %</label>
+                    <input type="number" id="priceWr" placeholder="Ex: 58">
+                </div>
+                <div class="input-group">
+                    <label id="t2-l3">Jumlah Skin Dimiliki</label>
+                    <input type="number" id="priceSkinCount" placeholder="Ex: 120">
                 </div>
             </div>
 
-            <div class="laci-item">
-                <div class="laci-header" onclick="toggleLaci(this)">
-                    <span id="laci-h2">⚔️ Counter Hero Assassin META (Ling, Nolan, Fanny)</span>
-                    <span class="icon-arrow">▼</span>
-                </div>
-                <div class="laci-content">
-                    <div class="laci-body" id="laci-b2">
-                        <p>Hero assassin lincah sangat meresahkan di tier tinggi. Ini cara jinakin mereka:</p>
-                        <p>👉 <b>Hero Counter:</b> <span class="badge-hero">Khufra</span>, <span class="badge-hero">Minsitthar</span>, <span class="badge-hero">Eudora / Saber</span>.</p>
-                        <p>👉 <b>Build Item Counter:</b> <span class="badge-item">Antique Cuirass</span> atau <span class="badge-item">Winter Crown</span>.</p>
-                    </div>
+            <div class="input-group">
+                <label style="color: var(--neon-gold); font-weight:bold;" id="t2-l4">Punya Koleksi Skin High-Demand Ini? (Pilih):</label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; font-size:12px;">
+                    <label><input type="checkbox" id="skinLegend" value="400000" style="width:auto; margin-right:5px;"> Skin Legend</label>
+                    <label><input type="checkbox" id="skinCollector" value="250000" style="width:auto; margin-right:5px;"> Skin Collector</label>
+                    <label><input type="checkbox" id="skinCollab" value="200000" style="width:auto; margin-right:5px;"> Skin Collab (AOT/JJK/KOF)</label>
+                    <label><input type="checkbox" id="skinLightborn" value="700000" style="width:auto; margin-right:5px;"> Squad (Lightborn/S.A.B.E.R)</label>
                 </div>
             </div>
 
-            <div class="laci-item">
-                <div class="laci-header" onclick="toggleLaci(this)">
-                    <span id="laci-h3">🏹 Counter Hero Marksman Ganas (Claude, Harith, Roger)</span>
-                    <span class="icon-arrow">▼</span>
-                </div>
-                <div class="laci-content">
-                    <div class="laci-body" id="laci-b3">
-                        <p>Jangan biarkan MM musuh jadi monster di late game. Segera bungkam pake taktik ini:</p>
-                        <p>👉 <b>Hero Counter:</b> <span class="badge-hero">Belerick</span>, <span class="badge-hero">Natalia / Helcurt</span>.</p>
-                        <p>👉 <b>Build Item Counter:</b> <span class="badge-item">Blade Armor</span> + <span class="badge-item">Dominance Ice</span>.</p>
+            <button class="action-btn" onclick="calculateAccountPrice()" id="t2-btn" style="background: linear-gradient(90deg, var(--neon-gold), #cc9900);">Estimate Account Price</button>
+            
+            <div class="result-view" id="priceResultBox" style="border-color: var(--neon-gold); background: rgba(255,183,0,0.05)">
+                <p id="priceResultText"></p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: SIMULATOR DRAFT PICK ==================== -->
+        <div id="tab-draft" class="card">
+            <h3 id="t3-head">Anti-Lose Counter Draft</h3>
+            
+            <div class="input-group">
+                <label id="t3-l1">Pilih Hero Core/Sangat Mengganggu Milik Musuh:</label>
+                <select id="enemyHero" onchange="simulateDraftCounter()">
+                    <option value="">-- Select Enemy Hero --</option>
+                    <option value="ling">Ling / Hayabusa (META Fast Assassin)</option>
+                    <option value="harith">Harith / Roger (Gold Lane Burst)</option>
+                    <option value="zhuxin">Zhuxin (Crowd Control / Air Lift)</option>
+                    <option value="terizla">Terizla / Yu Zhong (EXP Sustain Thick)</option>
+                    <option value="claude">Claude / Wanwan (Attack Speed Fly)</option>
+                </select>
+            </div>
+
+            <div class="result-view" id="draftResultBox" style="display:block; background:rgba(255,255,255,0.02); border-color:var(--border-glass);">
+                <p id="draftPromptText" style="text-align:center; color:var(--text-gray);">Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.</p>
+                <div id="draftMainContent" style="display: none;">
+                    <div style="margin-bottom: 12px;">
+                        <b style="color: var(--neon-blue);" id="t3-r1">Hero Counter Ideal:</b> 
+                        <div id="counterHeroOutput" style="margin-top: 5px; font-weight: 600;"></div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span class="badge badge-buy" id="t3-r2">WAJIB BELI</span>
+                        <span id="itemBuyOutput" style="font-size:13px;"></span>
+                    </div>
+                    <div>
+                        <span class="badge badge-avoid" id="t3-r3">HINDARI ITEM</span>
+                        <span id="itemAvoidOutput" style="font-size:13px;"></span>
                     </div>
                 </div>
             </div>
+        </div>
 
-        </div> <!-- Akhir Laci -->
+        <!-- ==================== TAB 4: VISUAL PREMIUM GALLERY ==================== -->
+        <div id="tab-gallery" class="card">
+            <h3 id="t4-head">Top Tier Aura Skins</h3>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500" class="gallery-img" alt="Skin 1">
+                <div class="gallery-info">
+                    <b style="color:var(--neon-pink)">Fanny - Mikasa Ackerman (Collab)</b>
+                    <p style="font-size:11px; color:var(--text-gray); margin-top:4px;" id="g-d1">Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500" class="gallery-img" alt="Skin 2">
+                <div class="gallery-info">
+                    <b style="color:var(--neon-blue)">Gusion - Cosmic Gleam (Legend)</b>
+                    <p style="font-size:11px; color:var(--text-gray); margin-top:4px;" id="g-d2">Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<script>
-// Data Bahasa (Kamus)
-const langData = {
-    id: {
-        title: "DASHBOARD MLBB",
-        subtitle: "Winrate Calculator & Strategy",
-        lblMatch: "Total Match Saat Ini",
-        lblCurrWr: "Win Rate Saat Ini (%)",
-        lblTargetWr: "Target Win Rate (%)",
-        btnCalc: "Analyze Win Rate",
-        lh1: "✨ Aura & Kenapa Harus Pake Web Ini?",
-        lb1: "Punya WR di bawah 50% itu *lowkey* bikin krisis reputasi pas mau mabar. Win Rate itu indikator utama aura **Sigma** Anda di MLBB. Daripada boncos ngitung manual sisa win tanpa lose, mending pake sistem kalkulator di atas. Hasil akurat, praktis, anti pusing *no cap*!",
-        lh2: "⚔️ Counter Hero Assassin META (Ling, Nolan, Fanny)",
-        lb2: "<p>Hero assassin lincah sangat meresahkan di tier tinggi. Ini cara jinakin mereka:</p><p>👉 <b>Hero Counter:</b> <span class='badge-hero'>Khufra</span>, <span class='badge-hero'>Minsitthar</span>, <span class='badge-hero'>Eudora / Saber</span>.</p><p>👉 <b>Build Item Counter:</b> <span class='badge-item'>Antique Cuirass</span> atau <span class='badge-item'>Winter Crown</span>.</p>",
-        lh3: "🏹 Counter Hero Marksman Ganas (Claude, Harith, Roger)",
-        lb3: "<p>Jangan biarkan MM musuh jadi monster di late game. Segera bungkam pake taktik ini:</p><p>👉 <b>Hero Counter:</b> <span class='badge-hero'>Belerick</span>, <span class='badge-hero'>Natalia / Helcurt</span>.</p><p>👉 <b>Build Item Counter:</b> <span class='badge-item'>Blade Armor</span> + <span class='badge-item'>Dominance Ice</span>.</p>",
-        alert1: "Harap isi semua kolom terlebih dahulu!",
-        alert2: "Win Rate tidak boleh mencapai atau melebihi 100%!",
-        alert3: "Target WR harus lebih tinggi dari WR saat ini!",
-        resText: "Total kemenangan saat ini: <b>{tw} Win</b>.<br>Demi dapetin target WR <b>{tr}%</b>, Anda diwajibkan meraih <span class='highlight'>{hw}x Win Beruntun</span> tanpa lose streak."
-    },
-    en: {
-        title: "MLBB DASHBOARD",
-        subtitle: "Winrate Calculator & Strategy",
-        lblMatch: "Current Total Matches",
-        lblCurrWr: "Current Win Rate (%)",
-        lblTargetWr: "Target Win Rate (%)",
-        btnCalc: "Analyze Win Rate",
-        lh1: "✨ Aura & Why You Need This Web?",
-        lb1: "Having a WR below 50% is *lowkey* an absolute aura loss when looking for a squad. Win Rate is basically your main **Sigma** energy in MLBB. Instead of doing bad manual math for your next wins, just use this calculator. Fast, accurate, and 100% *no cap*!",
-        lh2: "⚔️ Counter META Assassin Heroes (Ling, Nolan, Fanny)",
-        lb2: "<p>High mobility assassins are literally so breaking the game. Here is how to shut them down:</p><p>👉 <b>Counter Heroes:</b> <span class='badge-hero'>Khufra</span>, <span class='badge-hero'>Minsitthar</span>, <span class='badge-hero'>Eudora / Saber</span>.</p><p>👉 <b>Counter Items:</b> <span class='badge-item'>Antique Cuirass</span> or <span class='badge-item'>Winter Crown</span>.</p>",
-        lh3: "🏹 Counter Overpowered Marksman (Claude, Harith, Roger)",
-        lb3: "<p>Don't let enemy MM become a late-game monster. Shut them down immediately:</p><p>👉 <b>Counter Heroes:</b> <span class='badge-hero'>Belerick</span>, <span class='badge-hero'>Natalia / Helcurt</span>.</p><p>👉 <b>Counter Items:</b> <span class='badge-item'>Blade Armor</span> + <span class='badge-item'>Dominance Ice</span>.</p>",
-        alert1: "Please fill in all input fields!",
-        alert2: "Win Rate cannot reach or exceed 100%!",
-        alert3: "Target WR must be higher than current WR!",
-        resText: "Current total wins: <b>{tw} Win</b>.<br>To reach your target WR of <b>{tr}%</b>, you must achieve <span class='highlight'>{hw}x Straight Wins</span> without a single loss."
-    }
-};
+    <!-- BOTTOM APP-STYLE NAVIGATION BAR -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchMainTab('tab-wr', this)">
+            <div class="nav-icon">📊</div>
+            <span id="nav-w">Kalkulator</span>
+        </button>
+        <button class="nav-item" onclick="switchMainTab('tab-pricing', this)">
+            <div class="nav-icon">💰</div>
+            <span id="nav-p">Harga Akun</span>
+        </button>
+        <button class="nav-item" onclick="switchMainTab('tab-draft', this)">
+            <div class="nav-icon">⚔️</div>
+            <span id="nav-d">Draft Pick</span>
+        </button>
+        <button class="nav-item" onclick="switchMainTab('tab-gallery', this)">
+            <div class="nav-icon">✨</div>
+            <span id="nav-g">Aura Skin</span>
+        </button>
+    </nav>
 
-let currentLang = 'id';
-
-function setLanguage(lang) {
-    currentLang = lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-
-    // Ubah Teks Dunia Nyata
-    document.getElementById('txt-title').innerText = langData[lang].title;
-    document.getElementById('txt-subtitle').innerText = langData[lang].subtitle;
-    document.getElementById('lbl-match').innerText = langData[lang].lblMatch;
-    document.getElementById('lbl-curr-wr').innerText = langData[lang].lblCurrWr;
-    document.getElementById('lbl-target-wr').innerText = langData[lang].lblTargetWr;
-    document.getElementById('btn-calc').innerText = langData[lang].btnCalc;
-    document.getElementById('laci-h1').innerText = langData[lang].lh1;
-    document.getElementById('laci-b1').innerHTML = langData[lang].lb1;
-    document.getElementById('laci-h2').innerText = langData[lang].lh2;
-    document.getElementById('laci-b2').innerHTML = langData[lang].lb2;
-    document.getElementById('laci-h3').innerText = langData[lang].lh3;
-    document.getElementById('laci-b3').innerHTML = langData[lang].lb3;
-    
-    // Clear kotak hasil jika ganti bahasa
-    document.getElementById('resultBox').style.display = "none";
-}
-
-function toggleLaci(header) {
-    const item = header.parentElement;
-    const content = item.querySelector('.laci-content');
-    
-    document.querySelectorAll('.laci-item').forEach(otherItem => {
-        if (otherItem !== item) {
-            otherItem.classList.remove('active');
-            otherItem.querySelector('.laci-content').style.maxHeight = null;
-        }
-    });
-
-    item.classList.toggle('active');
-    if (item.classList.contains('active')) {
-        content.style.maxHeight = content.scrollHeight + "px";
-    } else {
-        content.style.maxHeight = null;
-    }
-}
-
-function hitungWinrate() {
-    const tMatch = parseInt(document.getElementById('totalMatch').value);
-    const cWr = parseFloat(document.getElementById('currentWr').value);
-    const tWr = parseFloat(document.getElementById('targetWr').value);
-    const resultBox = document.getElementById('resultBox');
-    const resultText = document.getElementById('resultText');
-
-    if (isNaN(tMatch) || isNaN(cWr) || isNaN(tWr)) {
-        alert(langData[currentLang].alert1);
-        return;
-    }
-    if (tWr >= 100 || cWr >= 100) {
-        alert(langData[currentLang].alert2);
-        return;
-    }
-    if (tWr <= cWr) {
-        alert(langData[currentLang].alert3);
-        return;
-    }
-
-    const totalWin = Math.round(tMatch * (cWr / 100));
-    const hasilWin = Math.ceil((tMatch * (tWr / 100) - totalWin) / (1 - (tWr / 100)));
-
-    resultBox.style.display = "block";
-    
-    let template = langData[currentLang].resText;
-    let formattedText = template.replace("{tw}", totalWin).replace("{tr}", tWr).replace("{hw}", hasilWin);
-    resultText.innerHTML = formattedText;
-}
-</script>
-
-</body>
-</html>
+    <!-- PROGRAM LOGIC SCRIPT -->
+    <script>
+        // DICTIONARY MULTI-LANGUAGE GAUL
+        const langPack = {
+            id: {
+                btnLang: "🇬🇧 EN",
+                navW: "Kalkulator", navP: "Harga Akun", navD: "Draft Pick", navG: "Aura Skin",
+                t1Head: "Kalkulator Winrate MLBB", t1Mode: "Mode Perhitungan", optAll: "Keseluruhan Akun (All Season)", optHero: "Spesifik Hero Pertandingan",
+                t1m1: "Total Match Saat Ini", t1m2: "WR Saat Ini (%)", t1m3: "Target WR (%)", t1btn: "Hitung Target WR",
+                t2Head: "Kalkulasi Harga Akun", t2l1: "Rank Tertinggi Akun", t2l2: "Total Win Rate Keseluruhan %", t2l3: "Jumlah Skin yang Dimiliki",
+                t2l4: "Punya Koleksi Skin High-Demand Ini? (Pilih):", t2btn: "Taksir Harga Akun",
+                t3Head: "Simulasi Counter Draft Pick", t3l1: "Pilih Hero Utama Musuh yang Mengganggu:",
+                t3prompt: "Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.",
+                t3r1: "Hero Counter Ideal & Alternatif:", t3r2: "WAJIB BELI", t3r3: "HINDARI ITEM",
+                t4Head: "Galeri Skin Penuh Aura",
+                gd1: "Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!",
+                gd2: "Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.",
+                err1: "Isi semua data dulu bro, jangan kosongan!", err2: "WR target ga masuk akal kalo diatas atau sama dengan 100%!", err3: "Target WR kamu harus lebih tinggi dari WR yang sekarang lah!",
+                resWr: "Total kemenangan saat ini: <b>{tw} Win</b>.<br>Biar profil kamu dapet aura Sigma dengan target WR <b>{tr}%</b>, kamu wajib menang bersih <span style='color:#00e5ff; font-weight:bold;'>{hw}x Win Beruntun</span> tanpa lose streak, no cap!",
+                resPrice: "🔥 Hasil taksiran nilai pasar bebas akun kamu: <br><span style='color:#ffb700; font-size:18px; font-weight:bold;'>Rp {val}</span><br><span style='font-size:12px; color:#94a3b8; display:block; margin-top:5px;'>*Harga bisa naik tergantung sisa diamond terkini & kepemilikan skin terbatas lainnya.</span>"
+            },
+            en: {
+                btnLang: "🇮🇩 ID",
+                navW: "Calculator", navP: "Account Value", navD: "Draft Pick", navG: "Skins",
+                t1Head: "MLBB Winrate Calculator", t1Mode: "Calculation Mode", optAll: "Overall Account (All Season)", optHero: "Specific Hero Matches",
+                t1m1: "Current Total Matches", t1m2: "Current WR (%)", t1m3: "Target WR (%)", t1btn: "Calculate Target WR",
+                t2Head: "Account Price Valuation", t2l1: "Highest Achieved Rank", t2l2: "Total Win Rate %", t2l3: "Total Skins Owned",
+                t2l4: "Own These High-Demand Skins? (Check all):", t2btn: "Estimate Account Value",
+                t3Head: "Counter Draft Pick Simulator", t3l1: "Select Threatening Enemy Hero:",
+                t3prompt: "Please pick an enemy hero to calculate balanced counter picks and item builds.",
+                t3r1: "Ideal Counter & Alternative Heroes:", t3r2: "RECOMMENDED ITEM", t3r3: "AVOID ITEM",
+                t4Head: "Top Aura Skin Showcase",
+                gd1: "Ultimate aura and rizz. The 3D Maneuver Gear cable effects are super smooth, automatically boosting your mechanic style in the jungle!",
+                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot animations, definitely worth the high market demand.",
+                err1: "Fill out the fields first, don't leave it blank!", err2: "Target WR is literally impossible if it's 100% or above!", err3: "Your target WR must be higher than your current WR, obviousl                                  
