@@ -4,15 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLBB Elite Synergy Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         :root {
             --bg-cyber: radial-gradient(circle at center, #111424 0%, #060814 100%);
             --glass-card: rgba(18, 22, 43, 0.7);
@@ -23,224 +17,36 @@
             --text-gray: #94a3b8;
             --border-glass: rgba(255, 255, 255, 0.08);
         }
-
-        body {
-            background: var(--bg-cyber);
-            color: var(--text-white);
-            min-height: 100vh;
-            padding-bottom: 90px; /* Ruang untuk bottom bar */
-        }
-
-        /* HEADER & LANG TOGGLE */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: rgba(6, 8, 20, 0.8);
-            border-bottom: 1px solid var(--border-glass);
-            backdrop-filter: blur(10px);
-        }
-
-        .brand {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-        }
-
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            color: var(--text-white);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .lang-btn:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-        }
-
-        /* CONTAINER LAYOUT */
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .card {
-            background: var(--glass-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 25px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            /* Sembunyikan lewat JS di bagian bawah, bukan CSS keras */
-        }
-
-        h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--text-white);
-            border-left: 4px solid var(--neon-blue);
-            padding-left: 10px;
-        }
-
-        /* INPUT FORM FIELDS */
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-gray);
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(6, 8, 20, 0.5);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-        }
-
-        .sub-group-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        /* BUTTONS */
-        .action-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, var(--neon-blue), #0088cc);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4);
-        }
-
-        /* RESULT PREVIEWS */
-        .result-view {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 229, 255, 0.05);
-            border: 1px dashed var(--neon-blue);
-            border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.6;
-            display: none;
-        }
-
-        /* BOTTOM NAVIGATION BAR */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background: rgba(11, 14, 26, 0.95);
-            border-top: 1px solid var(--border-glass);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            background: none;
-            border: none;
-            padding: 5px;
-            width: 25%;
-            height: 100%;
-            justify-content: center;
-        }
-
-        .nav-item.active {
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .nav-icon {
-            font-size: 22px;
-            margin-bottom: 2px;
-        }
-
-        /* LIST DRAFT COUNTER & ITEMS */
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-right: 8px;
-        }
+        body { background: var(--bg-cyber); color: var(--text-white); min-height: 100vh; padding-bottom: 90px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(6, 8, 20, 0.8); border-bottom: 1px solid var(--border-glass); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .brand { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .lang-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); color: var(--text-white); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .lang-btn:hover { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .container { max-width: 500px; margin: 20px auto; padding: 0 15px; }
+        .card { background: var(--glass-card); border: 1px solid var(--border-glass); border-radius: 20px; padding: 25px; backdrop-filter: blur(20px); box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-bottom: 20px; display: none; }
+        .card.active { display: block; }
+        h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 20px; color: var(--text-white); border-left: 4px solid var(--neon-blue); padding-left: 10px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: var(--text-gray); margin-bottom: 6px; font-weight: 500; }
+        input, select { width: 100%; padding: 12px 16px; background: rgba(6, 8, 20, 0.5); border: 1px solid var(--border-glass); border-radius: 12px; color: #fff; font-size: 15px; transition: 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+        .sub-group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .action-btn { width: 100%; padding: 14px; background: linear-gradient(90deg, var(--neon-blue), #0088cc); color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); }
+        .result-view { margin-top: 20px; padding: 15px; background: rgba(0, 229, 255, 0.05); border: 1px dashed var(--neon-blue); border-radius: 12px; font-size: 14px; line-height: 1.6; display: none; }
+        .result-view.show { display: block; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(11, 14, 26, 0.95); border-top: 1px solid var(--border-glass); display: flex; justify-content: space-around; align-items: center; z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s; background: none; border: none; padding: 5px; width: 25%; height: 100%; justify-content: center; }
+        .nav-item.active { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); background: rgba(255, 255, 255, 0.02); }
+        .nav-icon { font-size: 22px; margin-bottom: 2px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; margin-right: 8px; }
         .badge-buy { background: rgba(0, 255, 204, 0.15); color: #00ffcc; border: 1px solid #00ffcc; }
         .badge-avoid { background: rgba(255, 0, 85, 0.15); color: #ff0055; border: 1px solid #ff0055; }
-
-        /* GALLERY AREA */
-        .gallery-item {
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-glass);
-            background: #060814;
-        }
-        .gallery-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: 0.3s;
-        }
+        .gallery-item { border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--border-glass); background: #060814; }
+        .gallery-img { width: 100%; height: 160px; object-fit: cover; opacity: 0.8; transition: 0.3s; }
         .gallery-img:hover { opacity: 1; }
         .gallery-info { padding: 15px; font-size: 13px; }
+        .error-msg { color: #ff5555; font-size: 12px; margin-top: 5px; display: none; }
     </style>
 </head>
 <body>
@@ -252,20 +58,19 @@
 
     <div class="container">
         
-        <div id="tab-wr" class="card">
+        <div id="tab-wr" class="card active">
             <h3 id="t1-head">Kalkulator Winrate MLBB</h3>
-            
             <div class="input-group">
                 <label id="t1-mode-lbl">Mode Perhitungan</label>
-                <select id="wrMode" onchange="switchWrMode()">
+                <select id="wrMode">
                     <option value="all" id="opt-all">Keseluruhan Akun (All Season)</option>
                     <option value="hero" id="opt-hero">Spesifik Hero Pertandingan</option>
                 </select>
             </div>
-
             <div class="input-group">
                 <label id="t1-m1">Total Match Saat Ini</label>
                 <input type="number" id="wrTotalMatch" placeholder="Ex: 520">
+                <p class="error-msg" id="err-wr1"></p>
             </div>
             <div class="sub-group-grid">
                 <div class="input-group">
@@ -278,15 +83,11 @@
                 </div>
             </div>
             <button class="action-btn" onclick="calculateWinrate()" id="t1-btn">Hitung Target WR</button>
-            
-            <div class="result-view" id="wrResultBox">
-                <p id="wrResultText"></p>
-            </div>
+            <div class="result-view" id="wrResultBox"><p id="wrResultText"></p></div>
         </div>
 
         <div id="tab-pricing" class="card">
             <h3 id="t2-head">Kalkulasi Harga Akun</h3>
-            
             <div class="input-group">
                 <label id="t2-l1">Rank Tertinggi Akun</label>
                 <select id="priceRank">
@@ -307,75 +108,51 @@
                     <input type="number" id="priceSkinCount" placeholder="Ex: 120">
                 </div>
             </div>
-
             <div class="input-group">
-                <label style="color: var(--neon-gold); font-weight:bold;" id="t2-l4">Punya Koleksi Skin High-Demand Ini? (Pilih):</label>
+                <label style="color: var(--neon-gold); font-weight:bold;" id="t2-l4">Punya Koleksi Skin High-Demand?</label>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; font-size:12px;">
                     <label><input type="checkbox" id="skinLegend" value="400000" style="width:auto; margin-right:5px;"> Skin Legend</label>
                     <label><input type="checkbox" id="skinCollector" value="250000" style="width:auto; margin-right:5px;"> Skin Collector</label>
-                    <label><input type="checkbox" id="skinCollab" value="200000" style="width:auto; margin-right:5px;"> Skin Collab (AOT/JJK/KOF)</label>
-                    <label><input type="checkbox" id="skinLightborn" value="150000" style="width:auto; margin-right:5px;"> Squad (Lightborn/S.A.B.E.R)</label>
+                    <label><input type="checkbox" id="skinCollab" value="200000" style="width:auto; margin-right:5px;"> Skin Collab</label>
+                    <label><input type="checkbox" id="skinLightborn" value="150000" style="width:auto; margin-right:5px;"> Squad/Lightborn</label>
                 </div>
             </div>
-
             <button class="action-btn" onclick="calculateAccountPrice()" id="t2-btn" style="background: linear-gradient(90deg, var(--neon-gold), #cc9900);">Taksir Harga Akun</button>
-            
-            <div class="result-view" id="priceResultBox" style="border-color: var(--neon-gold); background: rgba(255,183,0,0.05)">
-                <p id="priceResultText"></p>
-            </div>
+            <div class="result-view" id="priceResultBox" style="border-color: var(--neon-gold); background: rgba(255,183,0,0.05)"><p id="priceResultText"></p></div>
         </div>
 
         <div id="tab-draft" class="card">
             <h3 id="t3-head">Simulasi Counter Draft Pick</h3>
-            
             <div class="input-group">
-                <label id="t3-l1">Pilih Hero Utama Musuh yang Mengganggu:</label>
+                <label id="t3-l1">Pilih Hero Utama Musuh:</label>
                 <select id="enemyHero" onchange="simulateDraftCounter()">
                     <option value="">-- Select Enemy Hero --</option>
-                    <option value="ling">Ling / Hayabusa (META Fast Assassin)</option>
-                    <option value="harith">Harith / Roger (Gold Lane Burst)</option>
-                    <option value="zhuxin">Zhuxin (Crowd Control / Air Lift)</option>
-                    <option value="terizla">Terizla / Yu Zhong (EXP Sustain Thick)</option>
-                    <option value="claude">Claude / Wanwan (Attack Speed Fly)</option>
+                    <option value="ling">Ling / Hayabusa (Assassin)</option>
+                    <option value="harith">Harith / Roger (Burst)</option>
+                    <option value="zhuxin">Zhuxin (CC/Air Lift)</option>
+                    <option value="terizla">Terizla / Yu Zhong (Tank)</option>
+                    <option value="claude">Claude / Wanwan (Marksman)</option>
                 </select>
             </div>
-
             <div class="result-view" id="draftResultBox" style="display:block; background:rgba(255,255,255,0.02); border-color:var(--border-glass);">
-                <p id="draftPromptText" style="text-align:center; color:var(--text-gray);">Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.</p>
-                <div id="draftMainContent" style="display: none;">
-                    <div style="margin-bottom: 15px;">
-                        <b style="color: var(--neon-blue);" id="t3-r1">Hero Counter Ideal & Alternatif:</b> 
-                        <div id="counterHeroOutput" style="margin-top: 5px; font-weight: 600; color: #fff;"></div>
-                    </div>
-                    <div style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                        <span class="badge badge-buy" id="t3-r2">WAJIB BELI</span>
-                        <span id="itemBuyOutput" style="font-size:13px; color: var(--text-white);"></span>
-                    </div>
-                    <div style="display: flex; align-items: flex-start;">
-                        <span class="badge badge-avoid" id="t3-r3">HINDARI ITEM</span>
-                        <span id="itemAvoidOutput" style="font-size:13px; color: var(--text-white);"></span>
-                    </div>
+                <p id="draftPromptText" style="text-align:center; color:var(--text-gray);">Silakan pilih hero musuh untuk melihat counter.</p>
+                <div id="draftMainContent" style="display:none;">
+                    <div style="margin-bottom:15px;"><b style="color:var(--neon-blue);" id="t3-r1">Hero Counter:</b><div id="counterHeroOutput" style="margin-top:5px;font-weight:600;color:#fff;"></div></div>
+                    <div style="margin-bottom:12px;display:flex;align-items:flex-start;"><span class="badge badge-buy" id="t3-r2">WAJIB BELI</span><span id="itemBuyOutput" style="font-size:13px;color:var(--text-white);"></span></div>
+                    <div style="display:flex;align-items:flex-start;"><span class="badge badge-avoid" id="t3-r3">HINDARI</span><span id="itemAvoidOutput" style="font-size:13px;color:var(--text-white);"></span></div>
                 </div>
             </div>
         </div>
 
         <div id="tab-gallery" class="card">
             <h3 id="t4-head">Galeri Skin Penuh Aura</h3>
-            
             <div class="gallery-item">
                 <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500" class="gallery-img" alt="Skin 1">
-                <div class="gallery-info">
-                    <b style="color:var(--neon-pink)">Fanny - Mikasa Ackerman (Collab)</b>
-                    <p style="font-size:12px; color:var(--text-gray); margin-top:6px;" id="g-d1">Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!</p>
-                </div>
+                <div class="gallery-info"><b style="color:var(--neon-pink)">Fanny - Mikasa Collab</b><p style="font-size:12px;color:var(--text-gray);margin-top:6px;" id="g-d1">Aura tiada tanding. Efek 3D Maneuver Gear mulus!</p></div>
             </div>
-
             <div class="gallery-item">
                 <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=500" class="gallery-img" alt="Skin 2">
-                <div class="gallery-info">
-                    <b style="color:var(--neon-blue)">Gusion - Cosmic Gleam (Legend)</b>
-                    <p style="font-size:12px; color:var(--text-gray); margin-top:6px;" id="g-d2">Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.</p>
-                </div>
+                <div class="gallery-info"><b style="color:var(--neon-blue)">Gusion - Cosmic Legend</b><p style="font-size:12px;color:var(--text-gray);margin-top:6px;" id="g-d2">Skin kasta tertinggi. Efek kosmik memukau!</p></div>
             </div>
         </div>
 
@@ -383,56 +160,29 @@
 
     <nav class="bottom-nav">
         <button id="btn-nav-wr" class="nav-item active" onclick="switchMainTab('tab-wr', this)">
-            <div class="nav-icon">📊</div>
-            <span id="nav-w">Kalkulator</span>
+            <div class="nav-icon">📊</div><span id="nav-w">Kalkulator</span>
         </button>
         <button id="btn-nav-pricing" class="nav-item" onclick="switchMainTab('tab-pricing', this)">
-            <div class="nav-icon">💰</div>
-            <span id="nav-p">Harga Akun</span>
+            <div class="nav-icon">💰</div><span id="nav-p">Harga Akun</span>
         </button>
         <button id="btn-nav-draft" class="nav-item" onclick="switchMainTab('tab-draft', this)">
-            <div class="nav-icon">⚔️</div>
-            <span id="nav-d">Draft Pick</span>
+            <div class="nav-icon">⚔️</div><span id="nav-d">Draft Pick</span>
         </button>
         <button id="btn-nav-gallery" class="nav-item" onclick="switchMainTab('tab-gallery', this)">
-            <div class="nav-icon">✨</div>
-            <span id="nav-g">Aura Skin</span>
+            <div class="nav-icon">✨</div><span id="nav-g">Aura Skin</span>
         </button>
     </nav>
 
     <script>
-        // DICTIONARY MULTI-LANGUAGE
+        // ========== LANGUAGE DICTIONARY ==========
+        let currentLang = 'id';
+        
         const langPack = {
             id: {
                 btnLang: "🇬🇧 EN",
                 navW: "Kalkulator", navP: "Harga Akun", navD: "Draft Pick", navG: "Aura Skin",
                 t1Head: "Kalkulator Winrate MLBB", t1Mode: "Mode Perhitungan", optAll: "Keseluruhan Akun (All Season)", optHero: "Spesifik Hero Pertandingan",
                 t1m1: "Total Match Saat Ini", t1m2: "WR Saat Ini (%)", t1m3: "Target WR (%)", t1btn: "Hitung Target WR",
-                t2Head: "Kalkulasi Harga Akun", t2l1: "Rank Tertinggi Akun", t2l2: "Total Win Rate Keseluruhan %", t2l3: "Jumlah Skin Dimiliki",
-                t2l4: "Punya Koleksi Skin High-Demand Ini? (Pilih):", t2btn: "Taksir Harga Akun",
-                t3Head: "Simulasi Counter Draft Pick", t3l1: "Pilih Hero Utama Musuh yang Mengganggu:",
-                t3prompt: "Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.",
-                t3r1: "Hero Counter Ideal & Alternatif:", t3r2: "WAJIB BELI", t3r3: "HINDARI ITEM",
-                t4Head: "Galeri Skin Penuh Aura",
-                gd1: "Aura dan rizz tiada tanding. Efek kabel 3D Manuver gear-nya mulus parah, bikin kamu otomatis keliatan jago pas melintas di jungle!",
-                gd2: "Skin kasta tertinggi para sepuh mekanik. Efek tebasan partikel kosmik dan animasi robot masa depan yang memanjakan mata, anti-burik.",
-                err1: "Isi semua data dulu bro, jangan kosongan!", err2: "WR target ga masuk akal kalo diatas atau sama dengan 100%!", err3: "Target WR kamu harus lebih tinggi dari WR yang sekarang lah!",
-                resWr: "Total kemenangan saat ini: <b>{tw} Win</b>.<br>Biar profil kamu dapet aura Sigma dengan target WR <b>{tr}%</b>, kamu wajib menang bersih <span style='color:#00e5ff; font-weight:bold;'>{hw}x Win Beruntun</span> tanpa lose streak, no cap!",
-                resPrice: "🔥 Hasil taksiran nilai pasar bebas akun kamu: <br><span style='color:#ffb700; font-size:18px; font-weight:bold;'>Rp {val}</span><br><span style='font-size:12px; color:#94a3b8; display:block; margin-top:5px;'>*Harga bisa naik tergantung sisa diamond terkini & kepemilikan skin terbatas lainnya.</span>"
-            },
-            en: {
-                btnLang: "🇮🇩 ID",
-                navW: "Calculator", navP: "Account Value", navD: "Draft Pick", navG: "Skins",
-                t1Head: "MLBB Winrate Calculator", t1Mode: "Calculation Mode", optAll: "Overall Account (All Season)", optHero: "Specific Hero Matches",
-                t1m1: "Current Total Matches", t1m2: "Current WR (%)", t1m3: "Target WR (%)", t1btn: "Calculate Target WR",
-                t2Head: "Account Price Valuation", t2l1: "Highest Achieved Rank", t2l2: "Total Win Rate %", t2l3: "Total Skins Owned",
-                t2l4: "Own These High-Demand Skins? (Check all):", t2btn: "Estimate Account Value",
-                t3Head: "Counter Draft Pick Simulator", t3l1: "Select Threatening Enemy Hero:",
-                t3prompt: "Please pick an enemy hero to calculate balanced counter picks and item builds.",
-                t3r1: "Ideal Counter & Alternative Heroes:", t3r2: "RECOMMENDED ITEM", t3r3: "AVOID ITEM",
-                t4Head: "Top Aura Skin Showcase",
-                gd1: "Ultimate aura and rizz. The 3D Maneuver Gear cable effects are super smooth, automatically boosting your mechanic style in the jungle!",
-                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot animations, definitely worth the high market demand.",
-                err1: "Fill out the fields first, don't leave it blank!", err2: "Target WR is literally impossible if it's 100% or above!", err3: "Your target WR must be higher than your current WR, obviously!",
-                resWr: "Current total victories: <b>{tw} Win</b>.<br>To flex that massive Sigma aura with a target WR of <b>{tr}%</b>, you straight up need <span style='color:#00e5ff; font-weight:bold;'>{hw}x Straight Wins</span> without a single loss, no cap!",
-                resPrice: "🔥 Estimated market price for your account: <br><span style='color:#ffb700; font-size:18px; font-weight:bold;'>IDR {va
+                t2Head: "Kalkulasi Harga Akun", t2l1: "Rank Tertinggi Akun", t2l2: "Total Win Rate %", t2l3: "Jumlah Skin Dimiliki",
+                t2l4: "Punya Skin High-Demand?", t2btn: "Taksir Harga Akun",
+                t3Head: "Simulasi Counter Draft
