@@ -3,184 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Win Rate MLBB</title>
+    <title>MLBB Winrate & Counter Dashboard</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            background: radial-gradient(circle at top, #1e1b4b, #090514);
             color: #f8fafc;
+            min-height: 100vh;
+            padding: 20px 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
-            background: rgba(30, 41, 59, 0.7);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .wrapper {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Tombol Pengubah Bahasa Premium */
+        .lang-switcher {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+            background: rgba(9, 5, 20, 0.6);
+            padding: 4px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s;
+            box-shadow: none;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+        }
+
+        .hero-banner {
+            background: linear-gradient(to bottom, rgba(56, 189, 248, 0.1), rgba(9, 5, 20, 0)), 
+                        url('https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=500') center/cover;
+            height: 120px;
+            border-bottom: 2px solid #38bdf8;
+        }
+
+        .main-content {
+            padding: 25px 20px;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
+
+        .sub-title {
+            text-align: center;
+            font-size: 12px;
             color: #38bdf8;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #475569;
-            background: #0f172a;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(9, 5, 20, 0.6);
             color: #fff;
             font-size: 16px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         input:focus {
             outline: none;
             border-color: #38bdf8;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            background: #38bdf8;
-            color: #0f172a;
+            padding: 15px;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: all 0.2s ease;
+            margin-top: 5px;
         }
 
         button:hover {
-            background: #0ea5e9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
         }
 
         .result {
             margin-top: 25px;
-            padding: 15px;
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 8px;
-            border-left: 4px solid #38bdf8;
+            padding: 16px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
             display: none;
         }
 
         .result p {
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
+            text-align: center;
         }
 
         .highlight {
             color: #f43f5e;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* Gaya Laci Dropdown */
+        .laci-container {
+            margin-top: 30px;
+        }
+
+        .laci-item {
+            margin-bottom: 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .laci-header {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .laci-header:hover {
+            color: #38bdf8;
+        }
+
+        .laci-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(9, 5, 20, 0.4);
+        }
+
+        .laci-body {
+            padding: 15px;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .laci-body p {
+            margin-bottom: 12px;
+        }
+
+        .badge-hero {
+            background: #38bdf8;
+            color: #090514;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-weight: bold;
+            font-size: 11px;
+        }
+
+        .badge-item {
+            background: #eab308;
+            color: #090514;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .icon-arrow {
+            transition: transform 0.3s;
+        }
+
+        .active .icon-arrow {
+            transform: rotate(180deg);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Kalkulator WR MLBB</h2>
-    
-    <div class="input-group">
-        <label for="totalMatch">Total Match Saat Ini</label>
-        <input type="number" id="totalMatch" placeholder="Contoh: 500">
+<div class="wrapper">
+    <!-- Switcher Bahasa -->
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLanguage('id')">🇮🇩 ID</button>
+        <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 EN</button>
     </div>
-    
-    <div class="input-group">
-        <label for="currentWr">Win Rate Saat Ini (%)</label>
-        <input type="number" step="0.01" id="currentWr" placeholder="Contoh: 55.2">
-    </div>
-    
-    <div class="input-group">
-        <label for="targetWr">Target Win Rate (%)</label>
-        <input type="number" step="0.01" id="targetWr" placeholder="Contoh: 60">
-    </div>
-    
-    <button onclick="hitungWinrate()">Hitung Berapa Win Lagi</button>
-    
-    <div class="result" id="resultBox">
-        <p id="resultText"></p>
+
+    <div class="hero-banner"></div>
+
+    <div class="main-content">
+        <h2 id="txt-title">DASHBOARD MLBB</h2>
+        <div class="sub-title" id="txt-subtitle">Winrate Calculator & Strategy</div>
+        
+        <!-- Input Form -->
+        <div class="input-group">
+            <label id="lbl-match">Total Match Saat Ini</label>
+            <input type="number" id="totalMatch" placeholder="Ex: 450">
+        </div>
+        
+        <div class="input-group">
+            <label id="lbl-curr-wr">Win Rate Saat Ini (%)</label>
+            <input type="number" step="0.01" id="currentWr" placeholder="Ex: 52.5">
+        </div>
+        
+        <div class="input-group">
+            <label id="lbl-target-wr">Target Win Rate (%)</label>
+            <input type="number" step="0.01" id="targetWr" placeholder="Ex: 60">
+        </div>
+        
+        <button onclick="hitungWinrate()" id="btn-calc">Analyze Win Rate</button>
+        
+        <!-- Hasil -->
+        <div class="result" id="resultBox">
+            <p id="resultText"></p>
+        </div>
+
+        <!-- MENU LACI STRATEGI -->
+        <div class="laci-container">
+            
+            <div class="laci-item">
+                <div class="laci-header" onclick="toggleLaci(this)">
+                    <span id="laci-h1">✨ Aura & Kenapa Harus Pake Web Ini?</span>
+                    <span class="icon-arrow">▼</span>
+                </div>
+                <div class="laci-content">
+                    <div class="laci-body" id="laci-b1">
+                        Punya WR di bawah 50% itu *lowkey* bikin krisis reputasi pas mau mabar. Win Rate itu indikator utama aura **Sigma** Anda di MLBB. Daripada boncos ngitung manual sisa win tanpa lose, mending pake sistem kalkulator di atas. Hasil akurat, praktis, anti pusing *no cap*!
+                    </div>
+                </div>
+            </div>
+
+            <div class="laci-item">
+                <div class="laci-header" onclick="toggleLaci(this)">
+                    <span id="laci-h2">⚔️ Counter Hero Assassin META (Ling, Nolan, Fanny)</span>
+                    <span class="icon-arrow">▼</span>
+                </div>
+                <div class="laci-content">
+                    <div class="laci-body" id="laci-b2">
+                        <p>Hero assassin lincah sangat meresahkan di tier tinggi. Ini cara jinakin mereka:</p>
+                        <p>👉 <b>Hero Counter:</b> <span class="badge-hero">Khufra</span>, <span class="badge-hero">Minsitthar</span>, <span class="badge-hero">Eudora / Saber</span>.</p>
+                        <p>👉 <b>Build Item Counter:</b> <span class="badge-item">Antique Cuirass</span> atau <span class="badge-item">Winter Crown</span>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="laci-item">
+                <div class="laci-header" onclick="toggleLaci(this)">
+                    <span id="laci-h3">🏹 Counter Hero Marksman Ganas (Claude, Harith, Roger)</span>
+                    <span class="icon-arrow">▼</span>
+                </div>
+                <div class="laci-content">
+                    <div class="laci-body" id="laci-b3">
+                        <p>Jangan biarkan MM musuh jadi monster di late game. Segera bungkam pake taktik ini:</p>
+                        <p>👉 <b>Hero Counter:</b> <span class="badge-hero">Belerick</span>, <span class="badge-hero">Natalia / Helcurt</span>.</p>
+                        <p>👉 <b>Build Item Counter:</b> <span class="badge-item">Blade Armor</span> + <span class="badge-item">Dominance Ice</span>.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Akhir Laci -->
     </div>
 </div>
-<!-- ============================================== -->
-    <!-- TAMBAHAN ARTIKEL (ALA GEN Z & GEN ALPHA VIBES) -->
-    <!-- ============================================== -->
-    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px; color: #cbd5e1; line-height: 1.6;">
-        
-        <h3 style="color: #38bdf8; margin-bottom: 10px; font-size: 16px;">Cara Hitung Win Rate (WR) Biar Rizz Anda Makin Maksimal 🚀</h3>
-        <p style="margin-bottom: 15px;">Let's be real, punya WR di bawah 50% itu *lowkey* bikin *anxiety* pas mau open BOongan mabar. Win Rate itu ibarat aura *Sigma* Anda di jagat MLBB. Kalau WR Anda kuning atau merah, *fix* Anda bakal dianggap beban komplek no cap. Makanya, pake kalkulator di atas biar Anda tahu beneran butuh berapa kali win beruntun buat nge-buff profil Anda.</p>
-        
-        <h3 style="color: #38bdf8; margin-bottom: 10px; font-size: 16px;">Rahasia Lepas dari Kutukan Lose Streak & Gabut</h3>
-        <p style="margin-bottom: 5px;">1. <b>Jangan Solo Rank, Angker!:</b> Main solo itu beneran *skibidi* banget alias ampas. Potensi dapet tim yang hobi troller atau AFK itu tinggi banget. Minimal ajak trio yang mekaniknya emang *overpower* biar ketularan menang.</p>
-        <p style="margin-bottom: 5px;">2. <b>Spam Hero META:</b> Jangan keras kepala pake hero yang udah kena *nerf* abis-abisan. Pantau terus hero yang lagi OP di TikTok atau YouTube, langsung gass pake di rank buat nge-farm bintang.</p>
-        <p style="margin-bottom: 15px;">3. <b>Pantau Terus Target WR:</b> Biar gak boncos, tiap abis main langsung input data Anda ke web kalkulator ini. Anggap aja ini asisten pribadi Anda menuju Mythical Glory!</p>
-    </div>
+
 <script>
+// Data Bahasa (Kamus)
+const langData = {
+    id: {
+        title: "DASHBOARD MLBB",
+        subtitle: "Winrate Calculator & Strategy",
+        lblMatch: "Total Match Saat Ini",
+        lblCurrWr: "Win Rate Saat Ini (%)",
+        lblTargetWr: "Target Win Rate (%)",
+        btnCalc: "Analyze Win Rate",
+        lh1: "✨ Aura & Kenapa Harus Pake Web Ini?",
+        lb1: "Punya WR di bawah 50% itu *lowkey* bikin krisis reputasi pas mau mabar. Win Rate itu indikator utama aura **Sigma** Anda di MLBB. Daripada boncos ngitung manual sisa win tanpa lose, mending pake sistem kalkulator di atas. Hasil akurat, praktis, anti pusing *no cap*!",
+        lh2: "⚔️ Counter Hero Assassin META (Ling, Nolan, Fanny)",
+        lb2: "<p>Hero assassin lincah sangat meresahkan di tier tinggi. Ini cara jinakin mereka:</p><p>👉 <b>Hero Counter:</b> <span class='badge-hero'>Khufra</span>, <span class='badge-hero'>Minsitthar</span>, <span class='badge-hero'>Eudora / Saber</span>.</p><p>👉 <b>Build Item Counter:</b> <span class='badge-item'>Antique Cuirass</span> atau <span class='badge-item'>Winter Crown</span>.</p>",
+        lh3: "🏹 Counter Hero Marksman Ganas (Claude, Harith, Roger)",
+        lb3: "<p>Jangan biarkan MM musuh jadi monster di late game. Segera bungkam pake taktik ini:</p><p>👉 <b>Hero Counter:</b> <span class='badge-hero'>Belerick</span>, <span class='badge-hero'>Natalia / Helcurt</span>.</p><p>👉 <b>Build Item Counter:</b> <span class='badge-item'>Blade Armor</span> + <span class='badge-item'>Dominance Ice</span>.</p>",
+        alert1: "Harap isi semua kolom terlebih dahulu!",
+        alert2: "Win Rate tidak boleh mencapai atau melebihi 100%!",
+        alert3: "Target WR harus lebih tinggi dari WR saat ini!",
+        resText: "Total kemenangan saat ini: <b>{tw} Win</b>.<br>Demi dapetin target WR <b>{tr}%</b>, Anda diwajibkan meraih <span class='highlight'>{hw}x Win Beruntun</span> tanpa lose streak."
+    },
+    en: {
+        title: "MLBB DASHBOARD",
+        subtitle: "Winrate Calculator & Strategy",
+        lblMatch: "Current Total Matches",
+        lblCurrWr: "Current Win Rate (%)",
+        lblTargetWr: "Target Win Rate (%)",
+        btnCalc: "Analyze Win Rate",
+        lh1: "✨ Aura & Why You Need This Web?",
+        lb1: "Having a WR below 50% is *lowkey* an absolute aura loss when looking for a squad. Win Rate is basically your main **Sigma** energy in MLBB. Instead of doing bad manual math for your next wins, just use this calculator. Fast, accurate, and 100% *no cap*!",
+        lh2: "⚔️ Counter META Assassin Heroes (Ling, Nolan, Fanny)",
+        lb2: "<p>High mobility assassins are literally so breaking the game. Here is how to shut them down:</p><p>👉 <b>Counter Heroes:</b> <span class='badge-hero'>Khufra</span>, <span class='badge-hero'>Minsitthar</span>, <span class='badge-hero'>Eudora / Saber</span>.</p><p>👉 <b>Counter Items:</b> <span class='badge-item'>Antique Cuirass</span> or <span class='badge-item'>Winter Crown</span>.</p>",
+        lh3: "🏹 Counter Overpowered Marksman (Claude, Harith, Roger)",
+        lb3: "<p>Don't let enemy MM become a late-game monster. Shut them down immediately:</p><p>👉 <b>Counter Heroes:</b> <span class='badge-hero'>Belerick</span>, <span class='badge-hero'>Natalia / Helcurt</span>.</p><p>👉 <b>Counter Items:</b> <span class='badge-item'>Blade Armor</span> + <span class='badge-item'>Dominance Ice</span>.</p>",
+        alert1: "Please fill in all input fields!",
+        alert2: "Win Rate cannot reach or exceed 100%!",
+        alert3: "Target WR must be higher than current WR!",
+        resText: "Current total wins: <b>{tw} Win</b>.<br>To reach your target WR of <b>{tr}%</b>, you must achieve <span class='highlight'>{hw}x Straight Wins</span> without a single loss."
+    }
+};
+
+let currentLang = 'id';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Ubah Teks Dunia Nyata
+    document.getElementById('txt-title').innerText = langData[lang].title;
+    document.getElementById('txt-subtitle').innerText = langData[lang].subtitle;
+    document.getElementById('lbl-match').innerText = langData[lang].lblMatch;
+    document.getElementById('lbl-curr-wr').innerText = langData[lang].lblCurrWr;
+    document.getElementById('lbl-target-wr').innerText = langData[lang].lblTargetWr;
+    document.getElementById('btn-calc').innerText = langData[lang].btnCalc;
+    document.getElementById('laci-h1').innerText = langData[lang].lh1;
+    document.getElementById('laci-b1').innerHTML = langData[lang].lb1;
+    document.getElementById('laci-h2').innerText = langData[lang].lh2;
+    document.getElementById('laci-b2').innerHTML = langData[lang].lb2;
+    document.getElementById('laci-h3').innerText = langData[lang].lh3;
+    document.getElementById('laci-b3').innerHTML = langData[lang].lb3;
+    
+    // Clear kotak hasil jika ganti bahasa
+    document.getElementById('resultBox').style.display = "none";
+}
+
+function toggleLaci(header) {
+    const item = header.parentElement;
+    const content = item.querySelector('.laci-content');
+    
+    document.querySelectorAll('.laci-item').forEach(otherItem => {
+        if (otherItem !== item) {
+            otherItem.classList.remove('active');
+            otherItem.querySelector('.laci-content').style.maxHeight = null;
+        }
+    });
+
+    item.classList.toggle('active');
+    if (item.classList.contains('active')) {
+        content.style.maxHeight = content.scrollHeight + "px";
+    } else {
+        content.style.maxHeight = null;
+    }
+}
+
 function hitungWinrate() {
-    // Ambil data dari inputan
     const tMatch = parseInt(document.getElementById('totalMatch').value);
     const cWr = parseFloat(document.getElementById('currentWr').value);
     const tWr = parseFloat(document.getElementById('targetWr').value);
     const resultBox = document.getElementById('resultBox');
     const resultText = document.getElementById('resultText');
 
-    // Validasi input kosong
     if (isNaN(tMatch) || isNaN(cWr) || isNaN(tWr)) {
-        alert("Harap isi semua kolom terlebih dahulu!");
+        alert(langData[currentLang].alert1);
         return;
     }
-
     if (tWr >= 100 || cWr >= 100) {
-        alert("Win Rate tidak boleh mencapai atau melebihi 100%!");
+        alert(langData[currentLang].alert2);
         return;
     }
-
     if (tWr <= cWr) {
-        alert("Target WR harus lebih tinggi dari WR saat ini!");
+        alert(langData[currentLang].alert3);
         return;
     }
 
-    // Rumus Matematika menghitung sisa win tanpa lose
     const totalWin = Math.round(tMatch * (cWr / 100));
     const hasilWin = Math.ceil((tMatch * (tWr / 100) - totalWin) / (1 - (tWr / 100)));
 
-    // Tampilkan hasil
     resultBox.style.display = "block";
-    if (hasilWin > 0) {
-        resultText.innerHTML = `Kamu saat ini memiliki <b>${totalWin}</b> total kemenangan.<br>Untuk mencapai WR <b>${tWr}%</b>, kamu membutuhkan sekitar <span class="highlight">${hasilWin}x Win beruntun (tanpa lose)</span>.`;
-    } else {
-        resultText.innerHTML = `Target WR sudah tercapai atau data yang dimasukkan keliru.`;
-    }
+    
+    let template = langData[currentLang].resText;
+    let formattedText = template.replace("{tw}", totalWin).replace("{tr}", tWr).replace("{hw}", hasilWin);
+    resultText.innerHTML = formattedText;
 }
 </script>
 
