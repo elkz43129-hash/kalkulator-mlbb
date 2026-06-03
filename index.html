@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLBB Elite Synergy Hub</title>
-    <!-- Google Fonts untuk font premium gaming -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -85,12 +84,8 @@
             padding: 25px;
             backdrop-filter: blur(20px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            display: none !important; /* Tersembunyi mutlak */
-        }
-
-        .card.active {
-            display: block !important; /* Tampil mutlak saat aktif */
-            animation: slideUp 0.4s ease;
+            margin-bottom: 20px;
+            /* Sembunyikan lewat JS di bagian bawah, bukan CSS keras */
         }
 
         h3 {
@@ -246,16 +241,10 @@
         }
         .gallery-img:hover { opacity: 1; }
         .gallery-info { padding: 15px; font-size: 13px; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- TOP CONTROL HEADER -->
     <header>
         <div class="brand">MLBB SYNERGY</div>
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">🇬🇧 EN</button>
@@ -263,9 +252,8 @@
 
     <div class="container">
         
-        <!-- ==================== TAB 1: CALCULATOR WR ==================== -->
-        <div id="tab-wr" class="card active">
-            <h3 id="t1-head">Winrate Calculator</h3>
+        <div id="tab-wr" class="card">
+            <h3 id="t1-head">Kalkulator Winrate MLBB</h3>
             
             <div class="input-group">
                 <label id="t1-mode-lbl">Mode Perhitungan</label>
@@ -289,19 +277,18 @@
                     <input type="number" step="0.01" id="wrTarget" placeholder="Ex: 60">
                 </div>
             </div>
-            <button class="action-btn" onclick="calculateWinrate()" id="t1-btn">Analyze WR Target</button>
+            <button class="action-btn" onclick="calculateWinrate()" id="t1-btn">Hitung Target WR</button>
             
             <div class="result-view" id="wrResultBox">
                 <p id="wrResultText"></p>
             </div>
         </div>
 
-        <!-- ==================== TAB 2: ACCOUNT PRICING ==================== -->
         <div id="tab-pricing" class="card">
-            <h3 id="t2-head">Account Valuation</h3>
+            <h3 id="t2-head">Kalkulasi Harga Akun</h3>
             
             <div class="input-group">
-                <label id="t2-l1">Rank Tertinggi (Highest Rank)</label>
+                <label id="t2-l1">Rank Tertinggi Akun</label>
                 <select id="priceRank">
                     <option value="15000">Grandmaster / Epic</option>
                     <option value="40000">Legend</option>
@@ -312,7 +299,7 @@
             </div>
             <div class="sub-group-grid">
                 <div class="input-group">
-                    <label id="t2-l2">Total Win Rate %</label>
+                    <label id="t2-l2">Total Win Rate Keseluruhan %</label>
                     <input type="number" id="priceWr" placeholder="Ex: 58">
                 </div>
                 <div class="input-group">
@@ -331,16 +318,15 @@
                 </div>
             </div>
 
-            <button class="action-btn" onclick="calculateAccountPrice()" id="t2-btn" style="background: linear-gradient(90deg, var(--neon-gold), #cc9900);">Estimate Account Price</button>
+            <button class="action-btn" onclick="calculateAccountPrice()" id="t2-btn" style="background: linear-gradient(90deg, var(--neon-gold), #cc9900);">Taksir Harga Akun</button>
             
             <div class="result-view" id="priceResultBox" style="border-color: var(--neon-gold); background: rgba(255,183,0,0.05)">
                 <p id="priceResultText"></p>
             </div>
         </div>
 
-        <!-- ==================== TAB 3: SIMULATOR DRAFT PICK ==================== -->
         <div id="tab-draft" class="card">
-            <h3 id="t3-head">Anti-Lose Counter Draft</h3>
+            <h3 id="t3-head">Simulasi Counter Draft Pick</h3>
             
             <div class="input-group">
                 <label id="t3-l1">Pilih Hero Utama Musuh yang Mengganggu:</label>
@@ -358,7 +344,7 @@
                 <p id="draftPromptText" style="text-align:center; color:var(--text-gray);">Silakan tentukan hero musuh untuk melihat kalkulasi counter pick seimbang dan rekomendasi item lapangan.</p>
                 <div id="draftMainContent" style="display: none;">
                     <div style="margin-bottom: 15px;">
-                        <b style="color: var(--neon-blue);" id="t3-r1">Hero Counter Ideal:</b> 
+                        <b style="color: var(--neon-blue);" id="t3-r1">Hero Counter Ideal & Alternatif:</b> 
                         <div id="counterHeroOutput" style="margin-top: 5px; font-weight: 600; color: #fff;"></div>
                     </div>
                     <div style="margin-bottom: 12px; display: flex; align-items: flex-start;">
@@ -373,9 +359,8 @@
             </div>
         </div>
 
-        <!-- ==================== TAB 4: VISUAL PREMIUM GALLERY ==================== -->
         <div id="tab-gallery" class="card">
-            <h3 id="t4-head">Top Tier Aura Skins</h3>
+            <h3 id="t4-head">Galeri Skin Penuh Aura</h3>
             
             <div class="gallery-item">
                 <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=500" class="gallery-img" alt="Skin 1">
@@ -396,27 +381,25 @@
 
     </div>
 
-    <!-- BOTTOM APP-STYLE NAVIGATION BAR -->
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchMainTab('tab-wr', this)">
+        <button id="btn-nav-wr" class="nav-item active" onclick="switchMainTab('tab-wr', this)">
             <div class="nav-icon">📊</div>
             <span id="nav-w">Kalkulator</span>
         </button>
-        <button class="nav-item" onclick="switchMainTab('tab-pricing', this)">
+        <button id="btn-nav-pricing" class="nav-item" onclick="switchMainTab('tab-pricing', this)">
             <div class="nav-icon">💰</div>
             <span id="nav-p">Harga Akun</span>
         </button>
-        <button class="nav-item" onclick="switchMainTab('tab-draft', this)">
+        <button id="btn-nav-draft" class="nav-item" onclick="switchMainTab('tab-draft', this)">
             <div class="nav-icon">⚔️</div>
             <span id="nav-d">Draft Pick</span>
         </button>
-        <button class="nav-item" onclick="switchMainTab('tab-gallery', this)">
+        <button id="btn-nav-gallery" class="nav-item" onclick="switchMainTab('tab-gallery', this)">
             <div class="nav-icon">✨</div>
             <span id="nav-g">Aura Skin</span>
         </button>
     </nav>
 
-    <!-- PROGRAM LOGIC SCRIPT -->
     <script>
         // DICTIONARY MULTI-LANGUAGE
         const langPack = {
@@ -449,4 +432,7 @@
                 t3r1: "Ideal Counter & Alternative Heroes:", t3r2: "RECOMMENDED ITEM", t3r3: "AVOID ITEM",
                 t4Head: "Top Aura Skin Showcase",
                 gd1: "Ultimate aura and rizz. The 3D Maneuver Gear cable effects are super smooth, automatically boosting your mechanic style in the jungle!",
-                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot anima
+                gd2: "The highest tier skin for mechanical gods. Mesmerizing cosmic slashes and futuristic robot animations, definitely worth the high market demand.",
+                err1: "Fill out the fields first, don't leave it blank!", err2: "Target WR is literally impossible if it's 100% or above!", err3: "Your target WR must be higher than your current WR, obviously!",
+                resWr: "Current total victories: <b>{tw} Win</b>.<br>To flex that massive Sigma aura with a target WR of <b>{tr}%</b>, you straight up need <span style='color:#00e5ff; font-weight:bold;'>{hw}x Straight Wins</span> without a single loss, no cap!",
+                resPrice: "🔥 Estimated market price for your account: <br><span style='color:#ffb700; font-size:18px; font-weight:bold;'>IDR {va
